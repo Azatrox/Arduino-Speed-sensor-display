@@ -1,3 +1,12 @@
+// so this is code for a speed sensor using two light gates and a disply using the included library
+
+
+
+
+
+
+
+
 int enter = 6;
 int leave= 13;
 int supply = 2;
@@ -71,10 +80,10 @@ void maths()
 }
 void visualoutput()
 {
-        // Convert the kmh variable to a string
-    dtostrf(kmh, 8, 2, displayStr); // Convert float to string with 2 decimal places
+        
+    dtostrf(kmh, 8, 2, displayStr); 
 
-    // Display the string on the TM1638 module
+    
     module.setDisplayToString(displayStr);
 
     base++;
