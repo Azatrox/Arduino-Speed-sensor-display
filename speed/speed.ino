@@ -1,17 +1,35 @@
-// so this is code for a speed sensor using two light gates and a disply using the included library
-
-
-
-
-
-
-
-
-int enter = 6;
-int leave= 13;
-int supply = 2;
-int data = 10;
-int clock = 9;
+/*  So this is code for a speed sensor using two light gates and a TM1638 display using the included library made by Ricardo Batista. This program outputs the speed of an object in km/h m/s cm/ms but only shows it on the 
+display in km/h
+⠀⠀⢀⡀⠀⠀⠀⠀⣷⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⠞⠋⠙⢳⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠸⣷⡀⠀⣿⡄⢹⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⡾⠁⠀⠀⠀⠀⢻⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⣰⡇⠀⠹⣧⠀⣻⣧⠀⠉⠀⠀⠀⠀⠀⠀⢀⣀⣤⠤⠶⠒⠛⠓⠒⠒⠲⠦⢤⣌⣷⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠘⣿⡀⠀⢻⣷⠛⠻⣇⠀⠘⠗⠀⣠⡴⠞⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠦⣤⡴⠞⠛⠋⠉⠛⢷⠀⠀⠀⠀
+⠀⠘⣷⣴⠿⢿⣆⠀⠙⠃⠀⣠⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⢶⣄⠀⠀⠀⢸⠇⠀⠀⠀
+⠀⢠⣿⡇⠀⢨⣿⡆⠀⢀⡼⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢦⡀⢀⡿⠀⠀⠀⠀
+⠀⠈⠀⠛⠀⠀⠀⠀⢠⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⣾⠃⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⢀⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⣆⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⡼⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⠛⠲⢦⣄
+⠀⠀⠀⠀⠀⠀⢀⡇⠀⠀⠀⠀⠀⠀⣀⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⡀⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀⣿
+⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀⣾⣿⣿⣿⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⣿⣿⣿⡆⠀⠀⠀⠀⠀⢸⣇⣤⠞⠁
+⠀⠀⠀⠀⠀⠀⠘⡇⠀⠀⠀⠀⠀⠹⢿⣿⡿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠻⣿⣿⡿⠃⠀⠀⠀⠀⠀⢸⠋⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⣷⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣄⣀⠀⠀⢀⣠⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⡀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠘⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⣿⠿⠿⣿⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⠛⢷⡀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠈⢷⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠓⠚⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⡾⠁⠀⢸⡇⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠲⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⠞⠛⠲⠶⠶⠛⠁⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠲⠤⣄⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⡤⢴⡞⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡤⠼⠯⣉⡉⠛⠒⠒⠒⠒⠒⠛⢋⠉⠉⠹⣆⡼⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠱⣄⠀⠀⠈⠁⠀⠀⠀⠀⠀⣰⠋⠀⢀⡀⢹⡏⢳⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⠏⠳⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠉⠁⠀⠀⣷⡿⢶⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⡤⣴⠒⠞⠙⡆⠀⠀⠀⠀⡼⠙⠶⠲⡤⢄⣸⠛⠲⠷⣟⡇⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⡀⠀⠀⠀⠀⣽⠀⠀⠀⠀⡇⠀⠀⠀⠀⢸⡟⠀⠀⠀⣨⡇⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠑⢤⣀⢀⣰⠃⠀⠀⠀⠀⢹⣄⠀⢀⣴⡿⠤⠴⠖⠚⠉⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠙⠛⠉⠉⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+*/
+int enter = 6; // Is High when nothing is interupting the sensor starts the program by saving the time sice start of the program in the variable a
+int leave= 13; // Is High when nothing is interupting the sensor starts calculations by saving the time sice start of the program in the variable b
+int supply = 2; // Is always High to suplly power to the light gates
+int data = 10; // Pin to send data to the display
+int clock = 9; //
 int strobe = 8;
 int a = 0;
 int b = 0;
